@@ -1,10 +1,15 @@
 {
-  "name": "rndemo",
+  "name": "rnunitydemo",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "watch": "node node_modules/typescript/bin/tsc -w",
+    "android": "node node_modules/react-native/local-cli/cli.js run-android",
+    "ios": "node node_modules/react-native/local-cli/cli.js run-ios",
+    "release-ios": "react-native unbundle --entry-file index.ios.js --platform ios --dev false",
+    "release-android": "node node_modules/typescript/bin/tsc && cd android && gradlew assembleRelease",
+    "logcat": "adb logcat *:S ReactNative:V ReactNativeJS:V"
   },
   "dependencies": {
     "react": "16.2.0",
@@ -12,10 +17,13 @@
     "react-native-unity-view": "1.0.0"
   },
   "devDependencies": {
+    "@types/react": "^16.0.36",
+    "@types/react-native": "^0.52.8",
     "babel-jest": "22.2.0",
     "babel-preset-react-native": "4.0.0",
     "jest": "22.2.1",
-    "react-test-renderer": "16.2.0"
+    "react-test-renderer": "16.2.0",
+    "typescript": "^2.7.1"
   },
   "jest": {
     "preset": "react-native"

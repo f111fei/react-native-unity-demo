@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "es2017",
+        "module": "es2015",
+        "moduleResolution": "node",
+        "jsx": "react",
+        "sourceMap": true,
+        "rootDir": "src",
+        "outDir": "./out",
+        "strictNullChecks":false,
+        "noImplicitAny": false,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "lib": [
+            "dom",
+            "es2015"
+        ]
+    }
+}

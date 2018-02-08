@@ -4,13 +4,15 @@
  * @flow
  */
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import {
   Platform,
   StyleSheet,
   Text,
   View
 } from 'react-native';
+
+import UnityView from 'react-native-unity-view';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -20,7 +22,7 @@ const instructions = Platform.select({
 });
 
 type Props = {};
-export default class App extends Component<Props> {
+export default class App extends React.Component<Props> {
   render() {
     return (
       <View style={styles.container}>
@@ -33,6 +35,7 @@ export default class App extends Component<Props> {
         <Text style={styles.instructions}>
           {instructions}
         </Text>
+        <UnityView style={{ width: 300, height: 300 }}/>
       </View>
     );
   }

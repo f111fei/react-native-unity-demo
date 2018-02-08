@@ -1,4 +1,4 @@
-package com.rndemo;
+package com.rnunitydemo;
 
 import android.app.Application;
 
