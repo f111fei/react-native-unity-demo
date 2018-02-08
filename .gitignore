@@ -52,3 +52,4 @@ buck-out/
 */fastlane/Preview.html
 */fastlane/screenshots
 /android/UnityExport
+/out
