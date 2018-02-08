@@ -39,11 +39,20 @@ public class Build : MonoBehaviour
 
         Copy(buildPath, exportPath);
 
+        // Modify build.gradle
 		var build_file = Path.Combine(exportPath, "build.gradle");
 		var build_text = File.ReadAllText(build_file);
 		build_text = build_text.Replace("com.android.application", "com.android.library");
 		build_text = Regex.Replace(build_text, @"\n.*applicationId '.+'.*\n", "");
 		File.WriteAllText(build_file, build_text);
+
+        // Modify AndroidManifest.xml
+        var manifest_file = Path.Combine(exportPath, "src/main/AndroidManifest.xml");
+        var manifest_text = File.ReadAllText(manifest_file);
+        manifest_text = Regex.Replace(manifest_text, @"<application .*>", "<application>");
+        Regex regex = new Regex(@"<activity.*>(\s|\S)+?</activity>", RegexOptions.Multiline);
+        manifest_text = regex.Replace(manifest_text, "");
+        File.WriteAllText(manifest_file, manifest_text);
     }
 
     static void Copy(string source, string destinationPath)
