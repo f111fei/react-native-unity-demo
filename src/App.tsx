@@ -10,7 +10,8 @@ import {
   StyleSheet,
   Text,
   View,
-  Button
+  Button,
+  StatusBar
 } from 'react-native';
 
 import UnityView from 'react-native-unity-view';
@@ -32,6 +33,10 @@ export default class App extends React.Component<Props, State> {
   
   constructor(props) {
     super(props);
+    StatusBar.setHidden(false);
+    StatusBar.setBackgroundColor('rgba(255,255,255,0)');
+    StatusBar.setBarStyle('dark-content');
+    StatusBar.setTranslucent(true);
     this.state = {
       unity: false
     }
@@ -43,7 +48,7 @@ export default class App extends React.Component<Props, State> {
 
   render() {
     return (
-      <View style={[styles.container, { backgroundColor: this.state.unity ? "rgba(0,0,0,0)" : "red" }]}>
+      <View style={[styles.container, { backgroundColor: this.state.unity ? "grey" : "red" }]}>
         {/* {this.state.unity ? <UnityView style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }} /> : null} */}
         {this.state.unity ? <UnityView style={{ position: 'absolute', left: 0, right: 0, top: 1, bottom: 1, }} /> : null}
         <Text style={styles.welcome}>
