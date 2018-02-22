@@ -107,6 +107,14 @@ android {
             abiFilters "armeabi-v7a", "x86"
         }
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+
     splits {
         abi {
             reset()
@@ -116,7 +124,15 @@ android {
         }
     }
     buildTypes {
+        debug {
+            manifestPlaceholders = [
+                "DEBUGGABLE": "true"
+            ]
+        }
         release {
+            manifestPlaceholders = [
+                "DEBUGGABLE": "false"
+            ]
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -140,7 +156,7 @@ dependencies {
     compile project(':react-native-unity-view')
     compile project(':UnityExport')
     compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.android.support:appcompat-v7:23.0.1"
+    compile "com.android.support:appcompat-v7:25.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
 }
 
