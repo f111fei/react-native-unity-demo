@@ -12,12 +12,14 @@ public class Build : MonoBehaviour
     static readonly string ProjectPath = Path.GetFullPath(Path.Combine(Application.dataPath, ".."));
 
     static readonly string apkPath = Path.Combine(ProjectPath, "Builds/" + Application.productName + ".apk");
-    static readonly string buildPath = Path.Combine(apkPath, Application.productName);
-    static readonly string exportPath = Path.GetFullPath(Path.Combine(ProjectPath, "../../android/UnityExport"));
+    static readonly string ipaPath = Path.Combine(ProjectPath, "Builds/" + Application.productName + ".ipa");
 
     [MenuItem("Build/Run Android %g", false, 1)]
-    public static void DoBuild()
+    public static void DoBuildAndroid()
     {
+        string buildPath = Path.Combine(apkPath, Application.productName);
+        string exportPath = Path.GetFullPath(Path.Combine(ProjectPath, "../../android/UnityExport"));
+
         if (Directory.Exists(apkPath))
             Directory.Delete(apkPath, true);
 
@@ -53,6 +55,34 @@ public class Build : MonoBehaviour
         Regex regex = new Regex(@"<activity.*>(\s|\S)+?</activity>", RegexOptions.Multiline);
         manifest_text = regex.Replace(manifest_text, "");
         File.WriteAllText(manifest_file, manifest_text);
+    }
+
+    [MenuItem("Build/Run IOS %g", false, 2)]
+    public static void DoBuildIOS()
+    {
+        string buildPath = ipaPath;
+        string exportPath = Path.GetFullPath(Path.Combine(ProjectPath, "../../ios/UnityExport"));
+
+        if (Directory.Exists(ipaPath))
+            Directory.Delete(ipaPath, true);
+
+        if (Directory.Exists(exportPath))
+            Directory.Delete(exportPath, true);
+
+        EditorUserBuildSettings.iOSBuildConfigType = iOSBuildType.Release;
+
+        var options = BuildOptions.AcceptExternalModificationsToPlayer;
+        var status = BuildPipeline.BuildPlayer(
+            GetEnabledScenes(),
+            ipaPath,
+            BuildTarget.iOS,
+            options
+        );
+
+        if (!string.IsNullOrEmpty(status))
+            throw new Exception("Build failed: " + status);
+
+        Copy(buildPath, exportPath);
     }
 
     static void Copy(string source, string destinationPath)
