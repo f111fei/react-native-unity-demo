@@ -12,7 +12,6 @@ public class Build : MonoBehaviour
     static readonly string ProjectPath = Path.GetFullPath(Path.Combine(Application.dataPath, ".."));
 
     static readonly string apkPath = Path.Combine(ProjectPath, "Builds/" + Application.productName + ".apk");
-    static readonly string ipaPath = Path.Combine(ProjectPath, "Builds/" + Application.productName + ".ipa");
 
     [MenuItem("Build/Run Android %g", false, 1)]
     public static void DoBuildAndroid()
@@ -60,11 +59,7 @@ public class Build : MonoBehaviour
     [MenuItem("Build/Run IOS %g", false, 2)]
     public static void DoBuildIOS()
     {
-        string buildPath = ipaPath;
         string exportPath = Path.GetFullPath(Path.Combine(ProjectPath, "../../ios/UnityExport"));
-
-        if (Directory.Exists(ipaPath))
-            Directory.Delete(ipaPath, true);
 
         if (Directory.Exists(exportPath))
             Directory.Delete(exportPath, true);
@@ -74,15 +69,13 @@ public class Build : MonoBehaviour
         var options = BuildOptions.AcceptExternalModificationsToPlayer;
         var status = BuildPipeline.BuildPlayer(
             GetEnabledScenes(),
-            ipaPath,
+            exportPath,
             BuildTarget.iOS,
             options
         );
 
         if (!string.IsNullOrEmpty(status))
             throw new Exception("Build failed: " + status);
-
-        Copy(buildPath, exportPath);
     }
 
     static void Copy(string source, string destinationPath)

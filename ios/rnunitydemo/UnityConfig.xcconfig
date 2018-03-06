@@ -17,7 +17,7 @@ OTHER_CFLAGS = $(inherited) -DINIT_SCRIPTING_BACKEND=1 -fno-strict-overflow -DNE
 
 OTHER_LDFLAGS = $(inherited) -weak-lSystem -weak_framework CoreMotion -weak_framework GameKit -weak_framework iAd -framework AVFoundation -framework AudioToolbox -framework CFNetwork -framework CoreGraphics -framework CoreLocation -framework CoreMedia -framework CoreVideo -framework Foundation -framework MediaPlayer -framework MediaToolbox -framework Metal -framework OpenAL -framework OpenGLES -framework QuartzCore -framework SystemConfiguration -framework UIKit -liconv.2 -liPhone-lib -lil2cpp ${PODS_LIBRARIES};
 
-CLANG_CXX_LANGUAGE_STANDARD = c++11;
+CLANG_CXX_LANGUAGE_STANDARD = c++0x;
 CLANG_CXX_LIBRARY = libc++;
 CLANG_ENABLE_MODULES = NO;
 CLANG_WARN_BOOL_CONVERSION = NO;
@@ -45,5 +45,3 @@ GCC_WARN_UNUSED_FUNCTION = NO;
 ENABLE_BITCODE = NO;
 
 DEAD_CODE_STRIPPING = YES;
-
-
