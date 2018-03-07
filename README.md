@@ -4,7 +4,17 @@ This is a demo project for [react-native-unity](https://github.com/f111fei/react
 
 ## How to Build
 
-On the way....
+1. Open `unity/Cube/Assets/test.unity`
+
+2. Click `Build` => `Export Android` or `Export IOS`
+
+```
+npm install
+
+npm run watch
+
+npm run android or npm run ios
+```
 
 ## Preview
 

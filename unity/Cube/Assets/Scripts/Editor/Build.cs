@@ -13,7 +13,7 @@ public class Build : MonoBehaviour
 
     static readonly string apkPath = Path.Combine(ProjectPath, "Builds/" + Application.productName + ".apk");
 
-    [MenuItem("Build/Run Android %g", false, 1)]
+    [MenuItem("Build/Export Android %a", false, 1)]
     public static void DoBuildAndroid()
     {
         string buildPath = Path.Combine(apkPath, Application.productName);
@@ -56,7 +56,7 @@ public class Build : MonoBehaviour
         File.WriteAllText(manifest_file, manifest_text);
     }
 
-    [MenuItem("Build/Run IOS %g", false, 2)]
+    [MenuItem("Build/Export IOS %i", false, 2)]
     public static void DoBuildIOS()
     {
         string exportPath = Path.GetFullPath(Path.Combine(ProjectPath, "../../ios/UnityExport"));
