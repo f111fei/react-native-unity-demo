@@ -34,9 +34,7 @@ export default class App extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     StatusBar.setHidden(false);
-    StatusBar.setBackgroundColor('rgba(255,255,255,0)');
     StatusBar.setBarStyle('dark-content');
-    StatusBar.setTranslucent(true);
     this.state = {
       unity: false
     }
@@ -49,7 +47,6 @@ export default class App extends React.Component<Props, State> {
   render() {
     return (
       <View style={[styles.container, { backgroundColor: this.state.unity ? "grey" : "red" }]}>
-        {/* {this.state.unity ? <UnityView style={{ position: 'absolute', top: 0, bottom: 0, left: 0, right: 0 }} /> : null} */}
         {this.state.unity ? <UnityView style={{ position: 'absolute', left: 0, right: 0, top: 1, bottom: 1, }} /> : null}
         <Text style={styles.welcome}>
           Welcome to React Native!
@@ -60,8 +57,7 @@ export default class App extends React.Component<Props, State> {
         <Text style={styles.instructions}>
           {instructions}
         </Text>
-        {/* {this.state.unity ? <UnityView style={{ position: 'absolute', width: 300, height: 300 }} /> : null} */}
-        <Button title="切换显示Unity" onPress={this.onPress.bind(this)} />
+        <Button title="Toggle Unity" color="blue" onPress={this.onPress.bind(this)} />
       </View>
     );
   }

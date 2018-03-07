@@ -131,18 +131,21 @@ public static class XcodePostBuild
         var pbxPath = Path.Combine(XcodeProjectRoot, PbxFilePath);
         pbx.ReadFromFile(pbxPath);
 
+        // Add UnityExport/Classes
         ProcessUnityDirectory(
             pbx,
             Path.Combine(pathToBuiltProject, "Classes"),
             Path.Combine(XcodeProjectRoot, ClassesProjectPath),
             ClassesProjectPath);
 
+        // Add UnityExport/Libraries
         ProcessUnityDirectory(
             pbx,
             Path.Combine(pathToBuiltProject, "Libraries"),
             Path.Combine(XcodeProjectRoot, LibrariesProjectPath),
             LibrariesProjectPath);
 
+        // Add UnityExport/Data
 		var targetGuid = pbx.TargetGuidByName(XcodeProjectName);
 		var fileGuid = pbx.AddFolderReference(Path.Combine(pathToBuiltProject, "Data"), DataProjectPath);
 		pbx.AddFileToBuild(targetGuid, fileGuid);
