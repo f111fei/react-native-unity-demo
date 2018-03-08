@@ -10,11 +10,12 @@ import {
   StyleSheet,
   Text,
   View,
-  StatusBar
+  StatusBar,
+  NativeSyntheticEvent
 } from 'react-native';
 
 import Button from './components/Button';
-import UnityView from 'react-native-unity-view';
+import UnityView, { UnityViewMessageEventData } from 'react-native-unity-view';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -26,6 +27,7 @@ const instructions = Platform.select({
 type Props = {};
 
 type State = {
+  clickCount: number;
   unity: boolean;
 };
 
@@ -36,6 +38,7 @@ export default class App extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
+      clickCount: 0,
       unity: false
     }
   }
@@ -60,10 +63,27 @@ export default class App extends React.Component<Props, State> {
     }
   }
 
+  private onUnityMessage(event: NativeSyntheticEvent<UnityViewMessageEventData>) {
+    console.log('OnUnityMessage: ' + event.nativeEvent.message);
+    this.setState({ clickCount: this.state.clickCount + 1 });
+  }
+
   render() {
+    let unityElement: JSX.Element;
+
+    if (this.state.unity) {
+      unityElement = (
+        <UnityView
+          ref={(ref) => this.unity = ref as any}
+          style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}
+          onMessage={this.onUnityMessage.bind(this)}
+        />
+      );
+    }
+
     return (
       <View style={[styles.container]}>
-        {this.state.unity ? <UnityView ref={(ref) => this.unity = ref as any} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, }} /> : null}
+        {unityElement}
         <Text style={styles.welcome}>
           Welcome to React Native!
         </Text>
@@ -73,6 +93,7 @@ export default class App extends React.Component<Props, State> {
         <Text style={styles.instructions}>
           {instructions}
         </Text>
+        <Text style={{ color: 'black', fontSize: 15 }}>Unity Click Count: <Text style={{ color: 'red' }}>{this.state.clickCount}</Text> </Text>
         <Button label="Toggle Unity" style={styles.button} onPress={this.onToggleUnity.bind(this)} />
         <Button label="Toggle Rotate" style={styles.button} onPress={this.onToggleRotate.bind(this)} />
       </View>

@@ -15,6 +15,12 @@ public class Rotate : MonoBehaviour {
 		Debug.Log("onMessage:" + message);
 		canRotate = !canRotate;
 	}
+
+	void OnMouseDown()
+    {
+        Debug.Log("click");
+		UnityMessageUtils.SendMessageToRN("click");
+    }
 	
 	// Update is called once per frame
 	void Update () {
