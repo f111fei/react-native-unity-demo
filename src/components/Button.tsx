@@ -27,9 +27,9 @@ export default class Button extends React.Component<ButtonProps, any> {
 
 const styles = StyleSheet.create({
     button: {
-        width: 140,
+        width: 120,
         minWidth: 100,
-        height: 40,
+        height: 30,
         borderRadius: 4,
         backgroundColor: '#448cfe',
         justifyContent: 'center',
@@ -37,6 +37,6 @@ const styles = StyleSheet.create({
     } as ViewStyle,
     label: {
         color: '#fff',
-        fontSize: 16
+        fontSize: 14
     } as TextStyle
 });

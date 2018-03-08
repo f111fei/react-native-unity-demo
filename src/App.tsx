@@ -63,7 +63,7 @@ export default class App extends React.Component<Props, State> {
   render() {
     return (
       <View style={[styles.container]}>
-        {this.state.unity ? <UnityView ref={(ref) => this.unity = ref as any} style={{ position: 'absolute', left: 0, right: 0, top: 1, bottom: 1, }} /> : null}
+        {this.state.unity ? <UnityView ref={(ref) => this.unity = ref as any} style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, }} /> : null}
         <Text style={styles.welcome}>
           Welcome to React Native!
         </Text>
@@ -73,8 +73,8 @@ export default class App extends React.Component<Props, State> {
         <Text style={styles.instructions}>
           {instructions}
         </Text>
-        <Button label="Toggle Unity" onPress={this.onToggleUnity.bind(this)} />
-        <Button label="Toggle Rotate" style={{ marginTop: 10 }} onPress={this.onToggleRotate.bind(this)} />
+        <Button label="Toggle Unity" style={styles.button} onPress={this.onToggleUnity.bind(this)} />
+        <Button label="Toggle Rotate" style={styles.button} onPress={this.onToggleRotate.bind(this)} />
       </View>
     );
   }
@@ -98,4 +98,7 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
+  button: {
+    marginTop: 10
+  }
 });
