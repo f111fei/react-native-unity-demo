@@ -10,10 +10,10 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
   StatusBar
 } from 'react-native';
 
+import Button from './components/Button';
 import UnityView from 'react-native-unity-view';
 
 const instructions = Platform.select({
@@ -30,24 +30,40 @@ type State = {
 };
 
 export default class App extends React.Component<Props, State> {
-  
+
+  private unity: UnityView;
+
   constructor(props) {
     super(props);
-    StatusBar.setHidden(false);
-    StatusBar.setBarStyle('dark-content');
     this.state = {
       unity: false
     }
   }
 
-  private onPress() {
+  public componentDidMount() {
+    StatusBar.setHidden(false);
+    StatusBar.setBarStyle('dark-content');
+    if (Platform.OS == 'android') {
+      StatusBar.setBackgroundColor('rgba(255,255,255,0)');
+      StatusBar.setTranslucent(true);
+    }
+  }
+
+  private onToggleUnity() {
     this.setState({ unity: !this.state.unity });
+  }
+
+  private onToggleRotate() {
+    if (this.unity) {
+      // gameobject param also can be 'Cube'.
+      this.unity.postMessage('GameObject/Cube', 'toggleRotate', '');
+    }
   }
 
   render() {
     return (
-      <View style={[styles.container, { backgroundColor: this.state.unity ? "grey" : "red" }]}>
-        {this.state.unity ? <UnityView style={{ position: 'absolute', left: 0, right: 0, top: 1, bottom: 1, }} /> : null}
+      <View style={[styles.container]}>
+        {this.state.unity ? <UnityView ref={(ref) => this.unity = ref as any} style={{ position: 'absolute', left: 0, right: 0, top: 1, bottom: 1, }} /> : null}
         <Text style={styles.welcome}>
           Welcome to React Native!
         </Text>
@@ -57,7 +73,8 @@ export default class App extends React.Component<Props, State> {
         <Text style={styles.instructions}>
           {instructions}
         </Text>
-        <Button title="Toggle Unity" color="blue" onPress={this.onPress.bind(this)} />
+        <Button label="Toggle Unity" onPress={this.onToggleUnity.bind(this)} />
+        <Button label="Toggle Rotate" style={{ marginTop: 10 }} onPress={this.onToggleRotate.bind(this)} />
       </View>
     );
   }
