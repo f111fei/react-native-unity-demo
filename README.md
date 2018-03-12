@@ -8,7 +8,10 @@ This is a demo project for [react-native-unity](https://github.com/f111fei/react
 
 2. Click `Build` => `Export Android` or `Export IOS`
 
+
 ```
+cd react-native-unity-demo
+
 npm install
 
 npm run watch
