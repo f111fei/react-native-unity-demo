@@ -58,8 +58,7 @@ export default class App extends React.Component<Props, State> {
 
   private onToggleRotate() {
     if (this.unity) {
-      // gameobject param also can be 'Cube'.
-      this.unity.postMessage('GameObject/Cube', 'toggleRotate', '');
+      this.unity.postMessageToUnityManager('ToggleRotate');
     }
   }
 

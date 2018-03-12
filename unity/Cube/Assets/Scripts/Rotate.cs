@@ -2,32 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Rotate : MonoBehaviour {
+public class Rotate : MonoBehaviour
+{
 
-	private bool canRotate = true;
+    private bool canRotate = true;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
+    // Use this for initialization
+    void Awake()
+    {
+        UnityMessageManager.Instance.OnMessage += toggleRotate;
+    }
 
-	void toggleRotate(string message) {
-		Debug.Log("onMessage:" + message);
-		canRotate = !canRotate;
-	}
+    void onDestroy()
+    {
+		UnityMessageManager.Instance.OnMessage -= toggleRotate;
+    }
 
-	void OnMouseDown()
+    void toggleRotate(string message)
+    {
+        Debug.Log("onMessage:" + message);
+        canRotate = !canRotate;
+    }
+
+    void OnMouseDown()
     {
         Debug.Log("click");
-		UnityMessageUtils.SendMessageToRN("click");
+        UnityMessageManager.Instance.SendMessageToRN("click");
     }
-	
-	// Update is called once per frame
-	void Update () {
-		if (!canRotate) {
-			return;
-		}
-		var delta = 30 * Time.deltaTime;
-		transform.localRotation *= Quaternion.Euler(delta, delta, delta);
-	}
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (!canRotate)
+        {
+            return;
+        }
+        var delta = 30 * Time.deltaTime;
+        transform.localRotation *= Quaternion.Euler(delta, delta, delta);
+    }
 }
