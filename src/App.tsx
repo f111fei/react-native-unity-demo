@@ -28,7 +28,8 @@ type Props = {};
 
 type State = {
   clickCount: number;
-  unity: boolean;
+  renderUnity: boolean;
+  unityPaused: boolean;
 };
 
 export default class App extends React.Component<Props, State> {
@@ -39,7 +40,8 @@ export default class App extends React.Component<Props, State> {
     super(props);
     this.state = {
       clickCount: 0,
-      unity: false
+      renderUnity: false,
+      unityPaused: false
     }
   }
 
@@ -53,7 +55,16 @@ export default class App extends React.Component<Props, State> {
   }
 
   private onToggleUnity() {
-    this.setState({ unity: !this.state.unity });
+    this.setState({ renderUnity: !this.state.renderUnity });
+  }
+
+  private onPauseAndResumeUnity() {
+    if (this.state.unityPaused) {
+      this.unity.resume();
+    } else {
+      this.unity.pause();
+    }
+    this.setState({ unityPaused: !this.state.unityPaused });
   }
 
   private onToggleRotate() {
@@ -68,9 +79,10 @@ export default class App extends React.Component<Props, State> {
   }
 
   render() {
+    const { renderUnity, unityPaused, clickCount } = this.state;
     let unityElement: JSX.Element;
 
-    if (this.state.unity) {
+    if (renderUnity) {
       unityElement = (
         <UnityView
           ref={(ref) => this.unity = ref as any}
@@ -92,9 +104,10 @@ export default class App extends React.Component<Props, State> {
         <Text style={styles.instructions}>
           {instructions}
         </Text>
-        <Text style={{ color: 'black', fontSize: 15 }}>Unity Click Count: <Text style={{ color: 'red' }}>{this.state.clickCount}</Text> </Text>
+        <Text style={{ color: 'black', fontSize: 15 }}>Unity Click Count: <Text style={{ color: 'red' }}>{clickCount}</Text> </Text>
         <Button label="Toggle Unity" style={styles.button} onPress={this.onToggleUnity.bind(this)} />
-        <Button label="Toggle Rotate" style={styles.button} onPress={this.onToggleRotate.bind(this)} />
+        {renderUnity ? <Button label="Toggle Rotate" style={styles.button} onPress={this.onToggleRotate.bind(this)} /> : null}
+        {renderUnity ? <Button label={unityPaused ? "Resume" : "Pause"} style={styles.button} onPress={this.onPauseAndResumeUnity.bind(this)} /> : null}
       </View>
     );
   }
