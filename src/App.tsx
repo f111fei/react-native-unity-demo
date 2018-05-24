@@ -11,11 +11,12 @@ import {
   Text,
   View,
   StatusBar,
-  NativeSyntheticEvent
+  NativeSyntheticEvent,
+  Alert
 } from 'react-native';
 
 import Button from './components/Button';
-import UnityView, { UnityViewMessageEventData } from 'react-native-unity-view';
+import UnityView, { UnityViewMessageEventData, MessageHandler } from 'react-native-unity-view';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -69,13 +70,21 @@ export default class App extends React.Component<Props, State> {
 
   private onToggleRotate() {
     if (this.unity) {
-      this.unity.postMessageToUnityManager('ToggleRotate');
+      this.unity.postMessageToUnityManager({
+        name: 'ToggleRotate',
+        data: '',
+        callBack: (data) => {
+          Alert.alert('Tip', JSON.stringify(data))
+        }
+      });
     }
   }
 
-  private onUnityMessage(event: NativeSyntheticEvent<UnityViewMessageEventData>) {
-    console.log('OnUnityMessage: ' + event.nativeEvent.message);
+  private onUnityMessage(hander: MessageHandler) {
     this.setState({ clickCount: this.state.clickCount + 1 });
+    setTimeout(() => {
+      hander.send('I am click callback!');
+    }, 2000);
   }
 
   render() {
@@ -87,7 +96,7 @@ export default class App extends React.Component<Props, State> {
         <UnityView
           ref={(ref) => this.unity = ref as any}
           style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 }}
-          onMessage={this.onUnityMessage.bind(this)}
+          onUnityMessage={this.onUnityMessage.bind(this)}
         />
       );
     }

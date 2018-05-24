@@ -10,24 +10,33 @@ public class Rotate : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
-        UnityMessageManager.Instance.OnMessage += toggleRotate;
+        UnityMessageManager.Instance.OnUnityMessage += onMessage;
     }
 
     void onDestroy()
     {
-		UnityMessageManager.Instance.OnMessage -= toggleRotate;
+        UnityMessageManager.Instance.OnUnityMessage -= onMessage;
     }
 
-    void toggleRotate(string message)
+    void onMessage(MessageHandler message)
     {
-        Debug.Log("onMessage:" + message);
+        var data = message.getData<string>();
+        Debug.Log("onMessage:" + data);
         canRotate = !canRotate;
+        message.send(new { CallbackTest = "I am Unity callback" });
     }
 
     void OnMouseDown()
     {
         Debug.Log("click");
-        UnityMessageManager.Instance.SendMessageToRN("click");
+        UnityMessageManager.Instance.SendMessageToRN(new UnityMessage()
+        {
+            name = "click",
+            callBack = (data) =>
+            {
+                Debug.Log("onClickCallBack:" + data);
+            }
+        });
     }
 
     // Update is called once per frame
