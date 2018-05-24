@@ -14,7 +14,8 @@ public class MessageHandler
     public String name;
     private JToken data;
 
-    public static MessageHandler Deserialize(string message) {
+    public static MessageHandler Deserialize(string message)
+    {
         JObject m = JObject.Parse(message);
         MessageHandler handler = new MessageHandler(
             m.GetValue("id").Value<int>(),
@@ -155,10 +156,13 @@ public class UnityMessageManager : MonoBehaviour
         {
             // handle callback message
             UnityMessage m;
-            waitCallbackMessageMap.TryGetValue(handler.id, out m);
-            if (m != null && m.callBack != null)
+            if (waitCallbackMessageMap.TryGetValue(handler.id, out m))
             {
-                m.callBack(handler.getData<object>()); // todo
+                waitCallbackMessageMap.Remove(handler.id);
+                if (m.callBack != null)
+                {
+                    m.callBack(handler.getData<object>()); // todo
+                }
             }
             return;
         }
