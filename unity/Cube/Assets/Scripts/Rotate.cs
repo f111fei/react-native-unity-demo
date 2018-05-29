@@ -10,12 +10,12 @@ public class Rotate : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
-        UnityMessageManager.Instance.OnUnityMessage += onMessage;
+        UnityMessageManager.Instance.OnRNMessage += onMessage;
     }
 
     void onDestroy()
     {
-        UnityMessageManager.Instance.OnUnityMessage -= onMessage;
+        UnityMessageManager.Instance.OnRNMessage -= onMessage;
     }
 
     void onMessage(MessageHandler message)

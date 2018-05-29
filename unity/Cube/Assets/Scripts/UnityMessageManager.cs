@@ -82,7 +82,7 @@ public class UnityMessageManager : MonoBehaviour
     public event MessageDelegate OnMessage;
 
     public delegate void MessageHandlerDelegate(MessageHandler handler);
-    public event MessageHandlerDelegate OnUnityMessage;
+    public event MessageHandlerDelegate OnRNMessage;
 
     private Dictionary<int, UnityMessage> waitCallbackMessageMap = new Dictionary<int, UnityMessage>();
 
@@ -140,7 +140,7 @@ public class UnityMessageManager : MonoBehaviour
         }
     }
 
-    void onUnityMessage(string message)
+    void onRNMessage(string message)
     {
         if (message.StartsWith(MessagePrefix))
         {
@@ -167,9 +167,9 @@ public class UnityMessageManager : MonoBehaviour
             return;
         }
 
-        if (OnUnityMessage != null)
+        if (OnRNMessage != null)
         {
-            OnUnityMessage(handler);
+            OnRNMessage(handler);
         }
     }
 }
