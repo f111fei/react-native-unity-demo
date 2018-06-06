@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 using Application = UnityEngine.Application;
+using BuildResult = UnityEditor.Build.Reporting.BuildResult;
 
 public class Build : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class Build : MonoBehaviour
 
     static readonly string apkPath = Path.Combine(ProjectPath, "Builds/" + Application.productName + ".apk");
 
-    [MenuItem("Build/Export Android %a", false, 1)]
+    [MenuItem("Build/Export Android %&a", false, 1)]
     public static void DoBuildAndroid()
     {
         string buildPath = Path.Combine(apkPath, Application.productName);
@@ -28,23 +29,23 @@ public class Build : MonoBehaviour
         EditorUserBuildSettings.androidBuildSystem = AndroidBuildSystem.Gradle;
 
         var options = BuildOptions.AcceptExternalModificationsToPlayer;
-        var status = BuildPipeline.BuildPlayer(
+        var report = BuildPipeline.BuildPlayer(
             GetEnabledScenes(),
             apkPath,
             BuildTarget.Android,
             options
         );
 
-        if (!string.IsNullOrEmpty(status))
-            throw new Exception("Build failed: " + status);
-
+        if (report.summary.result != BuildResult.Succeeded)
+            throw new Exception("Build failed");
+   
         Copy(buildPath, exportPath);
 
         // Modify build.gradle
 		var build_file = Path.Combine(exportPath, "build.gradle");
 		var build_text = File.ReadAllText(build_file);
 		build_text = build_text.Replace("com.android.application", "com.android.library");
-		build_text = Regex.Replace(build_text, @"\n.*applicationId '.+'.*\n", "");
+		build_text = Regex.Replace(build_text, @"\n.*applicationId '.+'.*\n", "\n");
 		File.WriteAllText(build_file, build_text);
 
         // Modify AndroidManifest.xml
@@ -56,7 +57,7 @@ public class Build : MonoBehaviour
         File.WriteAllText(manifest_file, manifest_text);
     }
 
-    [MenuItem("Build/Export IOS %i", false, 2)]
+    [MenuItem("Build/Export IOS %&i", false, 2)]
     public static void DoBuildIOS()
     {
         string exportPath = Path.GetFullPath(Path.Combine(ProjectPath, "../../ios/UnityExport"));
@@ -67,15 +68,15 @@ public class Build : MonoBehaviour
         EditorUserBuildSettings.iOSBuildConfigType = iOSBuildType.Release;
 
         var options = BuildOptions.AcceptExternalModificationsToPlayer;
-        var status = BuildPipeline.BuildPlayer(
+        var report = BuildPipeline.BuildPlayer(
             GetEnabledScenes(),
             exportPath,
             BuildTarget.iOS,
             options
         );
 
-        if (!string.IsNullOrEmpty(status))
-            throw new Exception("Build failed: " + status);
+        if (report.summary.result != BuildResult.Succeeded)
+            throw new Exception("Build failed");   
     }
 
     static void Copy(string source, string destinationPath)
