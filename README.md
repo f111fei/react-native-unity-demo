@@ -2,6 +2,13 @@
 
 This is a demo project for [react-native-unity](https://github.com/f111fei/react-native-unity-view)
 
+## Unity Version
+
+Use the master branch (Unity >= 2018)
+
+Use [unity-2017](https://github.com/f111fei/react-native-unity-demo/tree/unity-2017) branch (Unity < 2018)
+
+
 ## How to Build
 
 1. Open `unity/Cube/Assets/test.unity`
