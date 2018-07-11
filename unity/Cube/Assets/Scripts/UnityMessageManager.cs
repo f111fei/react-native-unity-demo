@@ -64,6 +64,9 @@ public class UnityMessageManager : MonoBehaviour
 #if UNITY_IOS && !UNITY_EDITOR
     [DllImport("__Internal")]
     private static extern void onUnityMessage(string message);
+
+    [DllImport("__Internal")]
+    private static extern void logToRN(string message, int level);
 #endif
 
     public const string MessagePrefix = "@UnityMessage@";
@@ -95,6 +98,29 @@ public class UnityMessageManager : MonoBehaviour
 
     void Awake()
     {
+    }
+
+    public static void SetLogToRN(bool enable)
+    {
+        if (enable)
+        {
+            Application.logMessageReceived += UnityMessageManager.LogToRN;
+        }
+        else
+        {
+            Application.logMessageReceived -= UnityMessageManager.LogToRN;
+        }
+    }
+
+    public static void LogToRN(string logString, string stackTrace, LogType type)
+    {
+        // We check for UNITY_IPHONE again so we don't try this if it isn't iOS platform.
+#if UNITY_IOS && !UNITY_EDITOR
+         // Now we check that it's actually an iOS device/simulator, not the Unity Player. You only get plugins on the actual device or iOS Simulator.
+         if (Application.platform == RuntimePlatform.IPhonePlayer) {
+             logToRN(type + ":" + logString + "\n===============\n" + stackTrace, 1);
+         }
+#endif
     }
 
     public void SendMessageToRN(string message)
