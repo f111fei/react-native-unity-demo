@@ -68,6 +68,7 @@ public static class XcodePostBuild
     private static string ClassesProjectPath =  "UnityExport/Classes";
     private static string LibrariesProjectPath = "UnityExport/Libraries";
 	private static string DataProjectPath =  "UnityExport/Data";
+    private static string VuforiaDataProjectPath =  "UnityExport/Vuforia";
 
     /// <summary>
     /// Path, relative to the root directory of the Xcode project, to put information about generated Unity output.
@@ -145,11 +146,18 @@ public static class XcodePostBuild
             Path.Combine(XcodeProjectRoot, LibrariesProjectPath),
             LibrariesProjectPath);
 
-        // Add UnityExport/Data
 		var targetGuid = pbx.TargetGuidByName(XcodeProjectName);
-		var fileGuid = pbx.AddFolderReference(Path.Combine(pathToBuiltProject, "Data"), DataProjectPath);
-		pbx.AddFileToBuild(targetGuid, fileGuid);
 
+        // Add UnityExport/Data
+		var fileGuid = pbx.AddFolderReference(Path.Combine(pathToBuiltProject, "Data"), DataProjectPath);
+        pbx.AddFileToBuild(targetGuid, fileGuid);
+
+        // Add UnityExport/Vuforia dir(if exists)
+        var vuforiaDataDir = Path.Combine(pathToBuiltProject, "Data/Raw/Vuforia");
+        if (Directory.Exists(vuforiaDataDir)){ //check if vuforia exists in the data folder.
+            pbx.AddFileToBuild(targetGuid, pbx.AddFolderReference(vuforiaDataDir, VuforiaDataProjectPath));
+        }
+        
         pbx.WriteToFile(pbxPath);
     }
 
