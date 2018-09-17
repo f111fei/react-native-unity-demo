@@ -4,9 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEditor;
+#if UNITY_2018
+using UnityEditor.Build.Reporting;
+#endif
 using UnityEngine;
 using Application = UnityEngine.Application;
-using BuildResult = UnityEditor.Build.Reporting.BuildResult;
 
 public class Build : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class Build : MonoBehaviour
 
     static readonly string apkPath = Path.Combine(ProjectPath, "Builds/" + Application.productName + ".apk");
 
-    [MenuItem("Build/Export Android %&a", false, 1)]
+    [MenuItem("Build/Export Android %a", false, 1)]
     public static void DoBuildAndroid()
     {
         string buildPath = Path.Combine(apkPath, Application.productName);
@@ -29,24 +31,29 @@ public class Build : MonoBehaviour
         EditorUserBuildSettings.androidBuildSystem = AndroidBuildSystem.Gradle;
 
         var options = BuildOptions.AcceptExternalModificationsToPlayer;
-        var report = BuildPipeline.BuildPlayer(
+        var status = BuildPipeline.BuildPlayer(
             GetEnabledScenes(),
             apkPath,
             BuildTarget.Android,
             options
         );
 
-        if (report.summary.result != BuildResult.Succeeded)
+#if UNITY_2018
+        if (status.summary.result != BuildResult.Succeeded)
             throw new Exception("Build failed");
-   
+#else
+        if (!string.IsNullOrEmpty(status))
+            throw new Exception("Build failed: " + status);
+#endif
+
         Copy(buildPath, exportPath);
 
         // Modify build.gradle
-		var build_file = Path.Combine(exportPath, "build.gradle");
-		var build_text = File.ReadAllText(build_file);
-		build_text = build_text.Replace("com.android.application", "com.android.library");
-		build_text = Regex.Replace(build_text, @"\n.*applicationId '.+'.*\n", "\n");
-		File.WriteAllText(build_file, build_text);
+        var build_file = Path.Combine(exportPath, "build.gradle");
+        var build_text = File.ReadAllText(build_file);
+        build_text = build_text.Replace("com.android.application", "com.android.library");
+        build_text = Regex.Replace(build_text, @"\n.*applicationId '.+'.*\n", "");
+        File.WriteAllText(build_file, build_text);
 
         // Modify AndroidManifest.xml
         var manifest_file = Path.Combine(exportPath, "src/main/AndroidManifest.xml");
@@ -57,7 +64,7 @@ public class Build : MonoBehaviour
         File.WriteAllText(manifest_file, manifest_text);
     }
 
-    [MenuItem("Build/Export IOS %&i", false, 2)]
+    [MenuItem("Build/Export IOS %i", false, 2)]
     public static void DoBuildIOS()
     {
         string exportPath = Path.GetFullPath(Path.Combine(ProjectPath, "../../ios/UnityExport"));
@@ -67,16 +74,52 @@ public class Build : MonoBehaviour
 
         EditorUserBuildSettings.iOSBuildConfigType = iOSBuildType.Release;
 
+        PlayerSettings.iOS.sdkVersion = iOSSdkVersion.DeviceSDK; //iOSSdkVersion.SimulatorSDK
+
         var options = BuildOptions.AcceptExternalModificationsToPlayer;
-        var report = BuildPipeline.BuildPlayer(
+        var status = BuildPipeline.BuildPlayer(
             GetEnabledScenes(),
             exportPath,
             BuildTarget.iOS,
             options
         );
 
-        if (report.summary.result != BuildResult.Succeeded)
-            throw new Exception("Build failed");   
+#if UNITY_2018
+        if (status.summary.result != BuildResult.Succeeded)
+            throw new Exception("Build failed");
+#else
+        if (!string.IsNullOrEmpty(status))
+            throw new Exception("Build failed: " + status);
+#endif
+    }
+
+    [MenuItem("Build/Export IOS Simulator", false, 3)]
+    public static void DoBuildIOSSimulator()
+    {
+        string exportPath = Path.GetFullPath(Path.Combine(ProjectPath, "../../ios/UnityExport"));
+
+        if (Directory.Exists(exportPath))
+            Directory.Delete(exportPath, true);
+
+        EditorUserBuildSettings.iOSBuildConfigType = iOSBuildType.Release;
+
+        PlayerSettings.iOS.sdkVersion = iOSSdkVersion.SimulatorSDK;
+
+        var options = BuildOptions.AcceptExternalModificationsToPlayer;
+        var status = BuildPipeline.BuildPlayer(
+            GetEnabledScenes(),
+            exportPath,
+            BuildTarget.iOS,
+            options
+        );
+
+#if UNITY_2018
+        if (status.summary.result != BuildResult.Succeeded)
+            throw new Exception("Build failed");
+#else
+        if (!string.IsNullOrEmpty(status))
+            throw new Exception("Build failed: " + status);
+#endif
     }
 
     static void Copy(string source, string destinationPath)
