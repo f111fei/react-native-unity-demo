@@ -45,6 +45,8 @@ public class Build : MonoBehaviour
 		var build_file = Path.Combine(exportPath, "build.gradle");
 		var build_text = File.ReadAllText(build_file);
 		build_text = build_text.Replace("com.android.application", "com.android.library");
+        build_text = build_text.Replace("implementation fileTree(dir: 'libs', include: ['*.jar'])", "api fileTree(include: ['*.jar'], dir: 'libs')");
+        // build_text = build_text.Replace("implementation(name: 'VuforiaWrapper', ext:'aar')", "api(name: 'VuforiaWrapper', ext: 'aar')");
 		build_text = Regex.Replace(build_text, @"\n.*applicationId '.+'.*\n", "\n");
 		File.WriteAllText(build_file, build_text);
 
