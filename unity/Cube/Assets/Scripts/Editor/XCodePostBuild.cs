@@ -82,7 +82,7 @@ public static class XcodePostBuild
     /// The identifier added to touched file to avoid double edits when building to existing directory without
     /// replace existing content.
     /// </summary>
-    private const string TouchedMarker = "https://github.com/jiulongw/swift-unity#v1";
+    private const string TouchedMarker = "https://github.com/f111fei/react-native-view";
 
     [PostProcessBuild]
     public static void OnPostBuild(BuildTarget target, string pathToBuiltProject)
@@ -372,6 +372,9 @@ public static class XcodePostBuild
     /// </summary>
     private static void EditUnityAppControllerMM(string path)
     {
+        var inScope = false;
+        var markerDetected = false;
+
         EditCodeFile(path, line =>
         {
             if (line.Trim() == "@end")
@@ -393,6 +396,28 @@ public static class XcodePostBuild
 					"",
 					line,
 				};
+            }
+
+            inScope |= line.Contains("- (void)startUnity:");
+            markerDetected |= inScope && line.Contains(TouchedMarker);
+
+            if (inScope && line.Trim() == "}")
+            {
+                inScope = false;
+
+                if (markerDetected)
+                {
+                    return new string[] { line };
+                }
+                else
+                {
+                    return new string[]
+                    {
+                        "    // Modified by " + TouchedMarker,
+                        @"    [[NSNotificationCenter defaultCenter] postNotificationName: @""UnityReady"" object:self];",
+                        "}",
+                    };
+                }
             }
 
             return new string[] { line };
