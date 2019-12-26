@@ -12,8 +12,6 @@ public class Build : MonoBehaviour
 {
     static readonly string ProjectPath = Path.GetFullPath(Path.Combine(Application.dataPath, ".."));
 
-    static readonly string apkPath = Path.Combine(ProjectPath, "Builds/" + Application.productName + ".apk");
-
     [MenuItem("Build/Export for Android %&a", false, 1)]
     public static void DoBuildAndroid()
     {
