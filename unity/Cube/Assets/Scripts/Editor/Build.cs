@@ -36,10 +36,10 @@ public class Build : MonoBehaviour
             throw new Exception("Build failed");
 
         // Modify build.gradle
-		var build_file = Path.Combine(exportPath, "unityLibrary/build.gradle");
-		var build_text = File.ReadAllText(build_file);
-		build_text = build_text.Replace("implementation fileTree(dir: 'libs', include: ['*.jar'])", "api fileTree(dir: 'libs', include: ['*.jar'])");
-		File.WriteAllText(build_file, build_text);
+        var build_file = Path.Combine(exportPath, "unityLibrary/build.gradle");
+        var build_text = File.ReadAllText(build_file);
+        build_text = build_text.Replace("implementation fileTree(dir: 'libs', include: ['*.jar'])", "api fileTree(dir: 'libs', include: ['*.jar'])");
+        File.WriteAllText(build_file, build_text);
 
         // Modify AndroidManifest.xml
         var manifest_file = Path.Combine(exportPath, "unityLibrary/src/main/AndroidManifest.xml");
@@ -69,7 +69,7 @@ public class Build : MonoBehaviour
         );
 
         if (report.summary.result != BuildResult.Succeeded)
-            throw new Exception("Build failed");   
+            throw new Exception("Build failed");
     }
 
     static string[] GetEnabledScenes()
