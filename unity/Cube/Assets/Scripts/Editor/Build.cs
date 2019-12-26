@@ -38,9 +38,7 @@ public class Build : MonoBehaviour
         // Modify build.gradle
 		var build_file = Path.Combine(exportPath, "unityLibrary/build.gradle");
 		var build_text = File.ReadAllText(build_file);
-		build_text = build_text.Replace("com.android.application", "com.android.library");
-        build_text = build_text.Replace("implementation fileTree(dir: 'libs', include: ['*.jar'])", "api fileTree(include: ['*.jar'], dir: 'libs')");
-		build_text = Regex.Replace(build_text, @"\n.*applicationId '.+'.*\n", "\n");
+		build_text = build_text.Replace("implementation fileTree(dir: 'libs', include: ['*.jar'])", "api fileTree(dir: 'libs', include: ['*.jar'])");
 		File.WriteAllText(build_file, build_text);
 
         // Modify AndroidManifest.xml
