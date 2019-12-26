@@ -42,7 +42,6 @@ public class Build : MonoBehaviour
         // Modify AndroidManifest.xml
         var manifest_file = Path.Combine(exportPath, "unityLibrary/src/main/AndroidManifest.xml");
         var manifest_text = File.ReadAllText(manifest_file);
-        manifest_text = Regex.Replace(manifest_text, @"<application .*>", "<application>");
         Regex regex = new Regex(@"<activity.*>(\s|\S)+?</activity>", RegexOptions.Multiline);
         manifest_text = regex.Replace(manifest_text, "");
         File.WriteAllText(manifest_file, manifest_text);
