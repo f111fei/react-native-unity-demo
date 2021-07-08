@@ -1,1 +1,11 @@
 /Bundle
+
+# Unity Files
+/Data
+/Managed
+Resource.res
+StoreManifest.xml
+Unity Data.vcxitems
+Unity Data.vcxitems.filters
+UnityGenerated.cpp
+UnityGenerated.h

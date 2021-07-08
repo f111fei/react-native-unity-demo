@@ -5,88 +5,127 @@
 #include "AutolinkedNativeModules.g.h"
 #include "ReactPackageProvider.h"
 
+#include "UnityGenerated.h"
+
+
 using namespace winrt;
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
 using namespace Windows::UI::Xaml::Navigation;
 using namespace Windows::ApplicationModel;
+using namespace Windows::UI::ViewManagement;
+
 namespace winrt::rnunitydemo::implementation
 {
-/// <summary>
-/// Initializes the singleton application object.  This is the first line of
-/// authored code executed, and as such is the logical equivalent of main() or
-/// WinMain().
-/// </summary>
-App::App() noexcept
-{
+    /// <summary>
+    /// Initializes the singleton application object.  This is the first line of
+    /// authored code executed, and as such is the logical equivalent of main() or
+    /// WinMain().
+    /// </summary>
+    App::App() noexcept
+    {
 #if BUNDLE
-    JavaScriptBundleFile(L"index.windows");
-    InstanceSettings().UseWebDebugger(false);
-    InstanceSettings().UseFastRefresh(false);
+        JavaScriptBundleFile(L"index.windows");
+        InstanceSettings().UseWebDebugger(false);
+        InstanceSettings().UseFastRefresh(false);
 #else
-    JavaScriptBundleFile(L"index");
-    InstanceSettings().UseWebDebugger(true);
-    InstanceSettings().UseFastRefresh(true);
+        JavaScriptBundleFile(L"index");
+        InstanceSettings().UseWebDebugger(true);
+        InstanceSettings().UseFastRefresh(true);
 #endif
 
 #if _DEBUG
-    InstanceSettings().UseDeveloperSupport(true);
+        InstanceSettings().UseDeveloperSupport(true);
 #else
-    InstanceSettings().UseDeveloperSupport(false);
+        InstanceSettings().UseDeveloperSupport(false);
 #endif
 
-    RegisterAutolinkedNativeModulePackages(PackageProviders()); // Includes any autolinked modules
+        RegisterAutolinkedNativeModulePackages(PackageProviders()); // Includes any autolinked modules
 
-    PackageProviders().Append(make<ReactPackageProvider>()); // Includes all modules in this project
+        PackageProviders().Append(make<ReactPackageProvider>()); // Includes all modules in this project
 
-    InitializeComponent();
-}
+        InitializeComponent();
 
-/// <summary>
-/// Invoked when the application is launched normally by the end user.  Other entry points
-/// will be used such as when the application is launched to open a specific file.
-/// </summary>
-/// <param name="e">Details about the launch request and process.</param>
-void App::OnLaunched(activation::LaunchActivatedEventArgs const& e)
-{
-    super::OnLaunched(e);
+        SetupOrientation();
+        //m_AppCallbacks = UnityPlayer::AppCallbacks();
+    }
 
-    Frame rootFrame = Window::Current().Content().as<Frame>();
-    rootFrame.Navigate(xaml_typename<MainPage>(), box_value(e.Arguments()));
-}
+    void App::SetupOrientation()
+    {
+        //Unity::SetupDisplay();
+    }
 
-/// <summary>
-/// Invoked when the application is activated by some means other than normal launching.
-/// </summary>
-void App::OnActivated(Activation::IActivatedEventArgs const &e) {
-  auto preActivationContent = Window::Current().Content();
-  super::OnActivated(e);
-  if (!preActivationContent && Window::Current()) {
-    Frame rootFrame = Window::Current().Content().as<Frame>();
-    rootFrame.Navigate(xaml_typename<MainPage>(), nullptr);
-  }
-}
 
-/// <summary>
-/// Invoked when application execution is being suspended.  Application state is saved
-/// without knowing whether the application will be terminated or resumed with the contents
-/// of memory still intact.
-/// </summary>
-/// <param name="sender">The source of the suspend request.</param>
-/// <param name="e">Details about the suspend request.</param>
-void App::OnSuspending([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] SuspendingEventArgs const& e)
-{
-    // Save application state and stop any background activity
-}
+    /// <summary>
+    /// Invoked when the application is launched normally by the end user.  Other entry points
+    /// will be used such as when the application is launched to open a specific file.
+    /// </summary>
+    /// <param name="e">Details about the launch request and process.</param>
+    void App::OnLaunched(activation::LaunchActivatedEventArgs const& e)
+    {
+        super::OnLaunched(e);
 
-/// <summary>
-/// Invoked when Navigation to a certain page fails
-/// </summary>
-/// <param name="sender">The Frame which failed navigation</param>
-/// <param name="e">Details about the navigation failure</param>
-void App::OnNavigationFailed(IInspectable const&, NavigationFailedEventArgs const& e)
-{
-    throw hresult_error(E_FAIL, hstring(L"Failed to load Page ") + e.SourcePageType().Name);
-}
+        Frame rootFrame = Window::Current().Content().as<Frame>();
+        rootFrame.Navigate(xaml_typename<MainPage>(), box_value(e.Arguments()));
 
-} // namespace winrt::rnunitydemo::implementation
+        //m_SplashScreen = e.SplashScreen();
+        InitializeUnity(e.Arguments());
+    }
+
+    void App::InitializeUnity(hstring args)
+    {
+        //ApplicationView::GetForCurrentView().SuppressSystemOverlays(true);
+
+        m_AppCallbacks.SetAppArguments(args);
+        Frame rootFrame = Window::Current().Content().as<Frame>();
+
+        // Do not repeat app initialization when the Window already has content,
+        // just ensure that the window is active
+        if (rootFrame == nullptr && !m_AppCallbacks.IsInitialized())
+        {
+            rootFrame = Frame();
+            Window::Current().Content(rootFrame);
+#if !UNITY_HOLOGRAPHIC
+            Window::Current().Activate();
+#endif
+
+            rootFrame.Navigate(xaml_typename<MainPage>(), nullptr);
+        }
+        Window::Current().Activate();
+    }
+
+    /// <summary>
+    /// Invoked when the application is activated by some means other than normal launching.
+    /// </summary>
+    void App::OnActivated(Activation::IActivatedEventArgs const& e) {
+        auto preActivationContent = Window::Current().Content();
+        super::OnActivated(e);
+        if (!preActivationContent && Window::Current()) {
+            Frame rootFrame = Window::Current().Content().as<Frame>();
+            rootFrame.Navigate(xaml_typename<MainPage>(), nullptr);
+        }
+    }
+
+    /// <summary>
+    /// Invoked when application execution is being suspended.  Application state is saved
+    /// without knowing whether the application will be terminated or resumed with the contents
+    /// of memory still intact.
+    /// </summary>
+    /// <param name="sender">The source of the suspend request.</param>
+    /// <param name="e">Details about the suspend request.</param>
+    void App::OnSuspending([[maybe_unused]] IInspectable const& sender, [[maybe_unused]] SuspendingEventArgs const& e)
+    {
+        // Save application state and stop any background activity
+    }
+
+    /// <summary>
+    /// Invoked when Navigation to a certain page fails
+    /// </summary>
+    /// <param name="sender">The Frame which failed navigation</param>
+    /// <param name="e">Details about the navigation failure</param>
+    void App::OnNavigationFailed(IInspectable const&, NavigationFailedEventArgs const& e)
+    {
+        throw hresult_error(E_FAIL, hstring(L"Failed to load Page ") + e.SourcePageType().Name);
+    }
+
+} // namespace winrt::uwp::implementation

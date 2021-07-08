@@ -10,10 +10,14 @@ namespace winrt::rnunitydemo::implementation
     {
         App() noexcept;
         void OnLaunched(activation::LaunchActivatedEventArgs const&);
-        void OnActivated(Windows::ApplicationModel::Activation::IActivatedEventArgs const &e);
+        void OnActivated(Windows::ApplicationModel::Activation::IActivatedEventArgs const& e);
         void OnSuspending(IInspectable const&, Windows::ApplicationModel::SuspendingEventArgs const&);
         void OnNavigationFailed(IInspectable const&, Windows::UI::Xaml::Navigation::NavigationFailedEventArgs const&);
-      private:
+    private:
         using super = AppT<App>;
+        UnityPlayer::AppCallbacks m_AppCallbacks;
+        //activation::SplashScreen m_SplashScreen;
+        void SetupOrientation();
+        void InitializeUnity(hstring args);
     };
-} // namespace winrt::rnunitydemo::implementation
+} // namespace winrt::uwp::implementation

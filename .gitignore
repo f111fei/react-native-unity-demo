@@ -57,3 +57,8 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+
+/android/UnityExport
+/ios/UnityExport
+/windows/UnityExport
+
