@@ -36,11 +36,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Mso", "..\node_modules\reac
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Include", "..\node_modules\react-native-windows\include\Include.vcxitems", "{EF074BA1-2D54-4D49-A28E-5E040B47CD2E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Il2CppOutputProject", "Il2CppOutputProject\Il2CppOutputProject.vcxproj", "{EA17D85E-DA6F-49EA-A879-8F48265B121D}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Unity Data", "rnunitydemo\Unity Data.vcxitems", "{C102B663-472B-4E4D-B82E-F8B2FAD767AA}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ReactNativeUnityView", "..\node_modules\react-native-unity-view\windows\ReactNativeUnityView\ReactNativeUnityView.vcxproj", "{284621AC-651F-46B6-B8D2-FC72EEFDBF43}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Il2CppOutputProject", "UnityExport\Il2CppOutputProject\Il2CppOutputProject.vcxproj", "{EA17D85E-DA6F-49EA-A879-8F48265B121D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Unity Data", "UnityExport\rnunitydemo\Unity Data.vcxitems", "{C102B663-472B-4E4D-B82E-F8B2FAD767AA}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -48,7 +48,7 @@ Global
 		..\node_modules\react-native-windows\Shared\Shared.vcxitems*{2049dbe9-8d13-42c9-ae4b-413ae38fffd0}*SharedItemsImports = 9
 		..\node_modules\react-native-windows\Mso\Mso.vcxitems*{84e05bfa-cbaf-4f0d-bfb6-4ce85742a57e}*SharedItemsImports = 9
 		..\node_modules\react-native-windows\JSI\Shared\JSI.Shared.vcxitems*{a62d504a-16b8-41d2-9f19-e2e86019e5e4}*SharedItemsImports = 4
-		rnunitydemo\Unity Data.vcxitems*{c102b663-472b-4e4d-b82e-f8b2fad767aa}*SharedItemsImports = 9
+		UnityExport\rnunitydemo\Unity Data.vcxitems*{c102b663-472b-4e4d-b82e-f8b2fad767aa}*SharedItemsImports = 9
 		..\node_modules\react-native-windows\Chakra\Chakra.vcxitems*{c38970c0-5fbf-4d69-90d8-cbac225ae895}*SharedItemsImports = 9
 		..\node_modules\react-native-windows\Microsoft.ReactNative.Cxx\Microsoft.ReactNative.Cxx.vcxitems*{da8b35b3-da00-4b02-bde6-6a397b3fd46b}*SharedItemsImports = 9
 		..\node_modules\react-native-windows\include\Include.vcxitems*{ef074ba1-2d54-4d49-a28e-5e040b47cd2e}*SharedItemsImports = 9
@@ -284,38 +284,6 @@ Global
 		{FCA38F3C-7C73-4C47-BE4E-32F77FA8538D}.Release|x64.Build.0 = Release|x64
 		{FCA38F3C-7C73-4C47-BE4E-32F77FA8538D}.Release|x86.ActiveCfg = Release|Win32
 		{FCA38F3C-7C73-4C47-BE4E-32F77FA8538D}.Release|x86.Build.0 = Release|Win32
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Debug|ARM.ActiveCfg = Debug|ARM
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Debug|ARM.Build.0 = Debug|ARM
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Debug|ARM64.ActiveCfg = Debug|ARM64
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Debug|ARM64.Build.0 = Debug|ARM64
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Debug|x64.ActiveCfg = Debug|x64
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Debug|x64.Build.0 = Debug|x64
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Debug|x86.ActiveCfg = Debug|Win32
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Debug|x86.Build.0 = Debug|Win32
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Master|ARM.ActiveCfg = Master|ARM
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Master|ARM.Build.0 = Master|ARM
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Master|ARM64.ActiveCfg = Master|ARM64
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Master|ARM64.Build.0 = Master|ARM64
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Master|x64.ActiveCfg = Master|x64
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Master|x64.Build.0 = Master|x64
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Master|x86.ActiveCfg = Master|Win32
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Master|x86.Build.0 = Master|Win32
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.MasterWithLTCG|ARM.ActiveCfg = MasterWithLTCG|ARM
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.MasterWithLTCG|ARM.Build.0 = MasterWithLTCG|ARM
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.MasterWithLTCG|ARM64.ActiveCfg = MasterWithLTCG|ARM64
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.MasterWithLTCG|ARM64.Build.0 = MasterWithLTCG|ARM64
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.MasterWithLTCG|x64.ActiveCfg = MasterWithLTCG|x64
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.MasterWithLTCG|x64.Build.0 = MasterWithLTCG|x64
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.MasterWithLTCG|x86.ActiveCfg = MasterWithLTCG|Win32
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.MasterWithLTCG|x86.Build.0 = MasterWithLTCG|Win32
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Release|ARM.ActiveCfg = Release|ARM
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Release|ARM.Build.0 = Release|ARM
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Release|ARM64.ActiveCfg = Release|ARM64
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Release|ARM64.Build.0 = Release|ARM64
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Release|x64.ActiveCfg = Release|x64
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Release|x64.Build.0 = Release|x64
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Release|x86.ActiveCfg = Release|Win32
-		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Release|x86.Build.0 = Release|Win32
 		{284621AC-651F-46B6-B8D2-FC72EEFDBF43}.Debug|ARM.ActiveCfg = Debug|ARM
 		{284621AC-651F-46B6-B8D2-FC72EEFDBF43}.Debug|ARM.Build.0 = Debug|ARM
 		{284621AC-651F-46B6-B8D2-FC72EEFDBF43}.Debug|ARM64.ActiveCfg = Debug|ARM64
@@ -348,6 +316,41 @@ Global
 		{284621AC-651F-46B6-B8D2-FC72EEFDBF43}.Release|x64.Build.0 = Release|x64
 		{284621AC-651F-46B6-B8D2-FC72EEFDBF43}.Release|x86.ActiveCfg = Release|Win32
 		{284621AC-651F-46B6-B8D2-FC72EEFDBF43}.Release|x86.Build.0 = Release|Win32
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Debug|ARM.ActiveCfg = Debug|ARM
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Debug|ARM.Build.0 = Debug|ARM
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Debug|ARM64.Build.0 = Debug|ARM64
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Debug|x64.ActiveCfg = Debug|x64
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Debug|x64.Build.0 = Debug|x64
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Debug|x86.ActiveCfg = Debug|Win32
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Debug|x86.Build.0 = Debug|Win32
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Master|ARM.ActiveCfg = Master|ARM
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Master|ARM.Build.0 = Master|ARM
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Master|ARM64.ActiveCfg = Master|ARM64
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Master|ARM64.Build.0 = Master|ARM64
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Master|x64.ActiveCfg = Master|x64
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Master|x64.Build.0 = Master|x64
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Master|x64.Deploy.0 = Master|x64
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Master|x86.ActiveCfg = Master|Win32
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Master|x86.Build.0 = Master|Win32
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.MasterWithLTCG|ARM.ActiveCfg = MasterWithLTCG|ARM
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.MasterWithLTCG|ARM.Build.0 = MasterWithLTCG|ARM
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.MasterWithLTCG|ARM64.ActiveCfg = MasterWithLTCG|ARM64
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.MasterWithLTCG|ARM64.Build.0 = MasterWithLTCG|ARM64
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.MasterWithLTCG|x64.ActiveCfg = MasterWithLTCG|x64
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.MasterWithLTCG|x64.Build.0 = MasterWithLTCG|x64
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.MasterWithLTCG|x64.Deploy.0 = MasterWithLTCG|x64
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.MasterWithLTCG|x86.ActiveCfg = MasterWithLTCG|Win32
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.MasterWithLTCG|x86.Build.0 = MasterWithLTCG|Win32
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Release|ARM.ActiveCfg = Release|ARM
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Release|ARM.Build.0 = Release|ARM
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Release|ARM64.ActiveCfg = Release|ARM64
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Release|ARM64.Build.0 = Release|ARM64
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Release|x64.ActiveCfg = Release|x64
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Release|x64.Build.0 = Release|x64
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Release|x64.Deploy.0 = Release|x64
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Release|x86.ActiveCfg = Release|Win32
+		{EA17D85E-DA6F-49EA-A879-8F48265B121D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

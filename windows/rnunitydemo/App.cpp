@@ -5,7 +5,7 @@
 #include "AutolinkedNativeModules.g.h"
 #include "ReactPackageProvider.h"
 
-#include "UnityGenerated.h"
+//#include "UnityGenerated.h"
 
 
 using namespace winrt;
