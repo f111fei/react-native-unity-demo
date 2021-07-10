@@ -280,7 +280,7 @@ public static class XcodePostBuild
     /// </summary>
     private static void EditMainMM(string path)
     {
-        EditCodeFile(path, line =>
+        EditorTool.EditCodeFile(path, line =>
         {
             if (line.TrimStart().StartsWith("int main", StringComparison.Ordinal))
             {
@@ -301,7 +301,7 @@ public static class XcodePostBuild
         var markerAdded = false;
 		
 		// Add static GetAppController
-		EditCodeFile(path, line =>
+		EditorTool.EditCodeFile(path, line =>
         {
 			inScope |= line.Contains("- (void)startUnity:");
 
@@ -328,7 +328,7 @@ public static class XcodePostBuild
 		markerDetected = false;
 
 		// Modify inline GetAppController
-        EditCodeFile(path, line =>
+        EditorTool.EditCodeFile(path, line =>
         {
             inScope |= line.Contains("inline UnityAppController");
 
@@ -375,7 +375,7 @@ public static class XcodePostBuild
         var inScope = false;
         var markerDetected = false;
 
-        EditCodeFile(path, line =>
+        EditorTool.EditCodeFile(path, line =>
         {
             if (line.Trim() == "@end")
             {
@@ -431,7 +431,7 @@ public static class XcodePostBuild
     {
         var markerDetected = false;
 
-        EditCodeFile(path, line =>
+        EditorTool.EditCodeFile(path, line =>
         {
             markerDetected |= line.Contains(TouchedMarker);
 
@@ -463,7 +463,7 @@ public static class XcodePostBuild
         var inScope = false;
         var level = 0;
 
-        EditCodeFile(path, line =>
+        EditorTool.EditCodeFile(path, line =>
         {
             inScope |= line.Trim() == "void ShowSplashScreen(UIWindow* window)";
             markerDetected |= line.Contains(TouchedMarker);
@@ -506,40 +506,6 @@ public static class XcodePostBuild
 
             return new string[] { line };
         });
-    }
-
-    private static void EditCodeFile(string path, Func<string, string> lineHandler)
-    {
-        EditCodeFile(path, line =>
-        {
-            return new string[] { lineHandler(line) };
-        });
-    }
-
-    private static void EditCodeFile(string path, Func<string, IEnumerable<string>> lineHandler)
-    {
-        var bakPath = path + ".bak";
-        if (File.Exists(bakPath))
-        {
-            File.Delete(bakPath);
-        }
-
-        File.Move(path, bakPath);
-
-        using (var reader = File.OpenText(bakPath))
-        using (var stream = File.Create(path))
-        using (var writer = new StreamWriter(stream))
-        {
-            string line;
-            while ((line = reader.ReadLine()) != null)
-            {
-                var outputs = lineHandler(line);
-                foreach (var o in outputs)
-                {
-                    writer.WriteLine(o);
-                }
-            }
-        }
     }
 }
 

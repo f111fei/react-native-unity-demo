@@ -8,15 +8,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <RelativePanel>
-        <SwapChainPanel x:Name="m_DXSwapChainPanel" Width="600" Height="600">
-        </SwapChainPanel>
-        <react:ReactRootView 
+    <react:ReactRootView 
         x:Name="ReactRootView"
         ComponentName="rnunitydemo"
-        Width="300"
-        Height="300"
         Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
         MinHeight="400"/>
-    </RelativePanel>
 </Page>

@@ -103,28 +103,6 @@ public class Build : MonoBehaviour
 
         if (report.summary.result != BuildResult.Succeeded)
             throw new Exception("Build failed");
-
-        
-        // Copy Il2CppOutputProject
-        Copy(Path.Combine(exportPath, "Il2CppOutputProject"), Path.Combine(uwpSlnPath, "Il2CppOutputProject"));
-        // Copy Players
-        Copy(Path.Combine(exportPath, "Players"), Path.Combine(uwpSlnPath, "Players"));
-        // Copy UnityCommon.props
-        File.Copy(Path.Combine(exportPath, "UnityCommon.props"), Path.Combine(uwpSlnPath, "UnityCommon.props"), true);
-
-        string exportProjectPath = Path.Combine(exportPath, PlayerSettings.productName);
-        string uwpProjectPath = Path.Combine(uwpSlnPath, PlayerSettings.productName);
-
-        // Copy Data and Managed Dir
-        Copy(Path.Combine(exportProjectPath, "Data"), Path.Combine(uwpProjectPath, "Data"));
-        Copy(Path.Combine(exportProjectPath, "Managed"), Path.Combine(uwpProjectPath, "Managed"));
-
-        // Copy Other Files
-        File.Copy(Path.Combine(exportProjectPath, "StoreManifest.xml"), Path.Combine(uwpProjectPath, "StoreManifest.xml"), true);
-        File.Copy(Path.Combine(exportProjectPath, "Unity Data.vcxitems"), Path.Combine(uwpProjectPath, "Unity Data.vcxitems"), true);
-        File.Copy(Path.Combine(exportProjectPath, "Unity Data.vcxitems.filters"), Path.Combine(uwpProjectPath, "Unity Data.vcxitems.filters"), true);
-        File.Copy(Path.Combine(exportProjectPath, "UnityGenerated.cpp"), Path.Combine(uwpProjectPath, "UnityGenerated.cpp"), true);
-        File.Copy(Path.Combine(exportProjectPath, "UnityGenerated.h"), Path.Combine(uwpProjectPath, "UnityGenerated.h"), true);
     }
 
     static void Copy(string source, string destinationPath)

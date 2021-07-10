@@ -16,7 +16,7 @@
  } from 'react-native';
  
  import Button from './components/Button';
- import UnityView, { MessageHandler, UnityModule } from 'react-native-unity-view';
+ import { UnityView, MessageHandler, UnityModule } from 'react-native-unity-view';
  
  type Props = {};
  

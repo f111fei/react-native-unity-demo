@@ -15,9 +15,5 @@ namespace winrt::rnunitydemo::implementation
         void OnNavigationFailed(IInspectable const&, Windows::UI::Xaml::Navigation::NavigationFailedEventArgs const&);
     private:
         using super = AppT<App>;
-        UnityPlayer::AppCallbacks m_AppCallbacks;
-        //activation::SplashScreen m_SplashScreen;
-        void SetupOrientation();
-        void InitializeUnity(hstring args);
     };
 } // namespace winrt::uwp::implementation

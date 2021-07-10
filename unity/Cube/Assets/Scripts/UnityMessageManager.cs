@@ -5,8 +5,9 @@ using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
+#if UNITY_WSA && !UNITY_EDITOR
 using AOT;
-
+#endif
 public class MessageHandler
 {
     public int id;
@@ -67,18 +68,22 @@ public class UnityMessageManager : MonoBehaviour
     private static extern void onUnityMessage(string message);
 #endif
 
-    public delegate void CSCallback([MarshalAs(UnmanagedType.LPWStr)]string message);
-    static CSCallback callback;
-
 #if UNITY_WSA && !UNITY_EDITOR
+    public delegate void CSharpDelegateCallBack([MarshalAs(UnmanagedType.LPWStr)]string message);
+    static CSharpDelegateCallBack callback;
+
     [DllImport("__Internal")]
     private static extern void onUnityMessage([MarshalAs(UnmanagedType.LPWStr)]string message);
 
     [DllImport("__Internal")]
-    private static extern void InitCSharpDelegate(CSCallback callback);
+    private static extern void InitCSharpDelegate(CSharpDelegateCallBack callback);
 
-    [DllImport("__Internal")]
-    private static extern int CountLettersInString([MarshalAs(UnmanagedType.LPWStr)]string str);
+    [MonoPInvokeCallback(typeof(CSharpDelegateCallBack))]
+    private static void DoCSCallback(string message)
+    {
+        Debug.Log("Message From C++:" + message);
+        UnityMessageManager.Instance.onRNMessage(message);
+    }
 #endif
 
     public const string MessagePrefix = "@UnityMessage@";
@@ -100,13 +105,6 @@ public class UnityMessageManager : MonoBehaviour
     public event MessageHandlerDelegate OnRNMessage;
 
     private Dictionary<int, UnityMessage> waitCallbackMessageMap = new Dictionary<int, UnityMessage>();
-
-    [MonoPInvokeCallback(typeof(CSCallback))]
-    private static void DoCSCallback(string message)
-    {
-        Debug.Log("Message From C++:" + message);
-        UnityMessageManager.Instance.onRNMessage(message);
-    }
 
     static UnityMessageManager()
     {
@@ -138,11 +136,11 @@ public class UnityMessageManager : MonoBehaviour
 #if UNITY_IOS && !UNITY_EDITOR
             onUnityMessage(message);
 #endif
-        } else {
+        }
+        else
+        {
 #if UNITY_WSA && !UNITY_EDITOR
             onUnityMessage(message);
-            int num = CountLettersInString(message);
-            Debug.Log("CountLettersInString:" + num);
 #endif
         }
     }

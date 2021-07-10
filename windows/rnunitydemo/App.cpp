@@ -5,9 +5,6 @@
 #include "AutolinkedNativeModules.g.h"
 #include "ReactPackageProvider.h"
 
-//#include "UnityGenerated.h"
-
-
 using namespace winrt;
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
@@ -45,14 +42,6 @@ namespace winrt::rnunitydemo::implementation
         PackageProviders().Append(make<ReactPackageProvider>()); // Includes all modules in this project
 
         InitializeComponent();
-
-        SetupOrientation();
-        //m_AppCallbacks = UnityPlayer::AppCallbacks();
-    }
-
-    void App::SetupOrientation()
-    {
-        //Unity::SetupDisplay();
     }
 
 
@@ -67,31 +56,6 @@ namespace winrt::rnunitydemo::implementation
 
         Frame rootFrame = Window::Current().Content().as<Frame>();
         rootFrame.Navigate(xaml_typename<MainPage>(), box_value(e.Arguments()));
-
-        //m_SplashScreen = e.SplashScreen();
-        InitializeUnity(e.Arguments());
-    }
-
-    void App::InitializeUnity(hstring args)
-    {
-        //ApplicationView::GetForCurrentView().SuppressSystemOverlays(true);
-
-        m_AppCallbacks.SetAppArguments(args);
-        Frame rootFrame = Window::Current().Content().as<Frame>();
-
-        // Do not repeat app initialization when the Window already has content,
-        // just ensure that the window is active
-        if (rootFrame == nullptr && !m_AppCallbacks.IsInitialized())
-        {
-            rootFrame = Frame();
-            Window::Current().Content(rootFrame);
-#if !UNITY_HOLOGRAPHIC
-            Window::Current().Activate();
-#endif
-
-            rootFrame.Navigate(xaml_typename<MainPage>(), nullptr);
-        }
-        Window::Current().Activate();
     }
 
     /// <summary>
